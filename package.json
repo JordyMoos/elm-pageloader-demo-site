@@ -1,0 +1,8 @@
+{
+  "name": "elm-pageloader-demo-site",
+  "version": "1.0.0",
+  "repository": "https://github.com/JordyMoos/elm-pageloader-demo-site.git",
+  "main": "src/Main.elm",
+  "author": "Jordy Moos",
+  "license": "MIT"
+}
