@@ -26,7 +26,7 @@ categoryItemsUrl id =
         String.concat
             [ "/category-"
             , toString id
-            , ".items.json"
+            , "-items.json"
             ]
 
 

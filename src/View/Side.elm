@@ -1,6 +1,6 @@
 module View.Side exposing (categoriesMenu)
 
-import Data.Category exposing (Category)
+import Data.Category as Category exposing (Category)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -22,5 +22,7 @@ categoryView : Category -> Html msg
 categoryView category =
     li
         []
-        [ a [ href "#" ] [ text category.title ]
+        [ a
+            [ href (Category.url category) ]
+            [ text category.title ]
         ]

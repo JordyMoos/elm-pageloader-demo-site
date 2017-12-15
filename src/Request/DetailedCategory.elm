@@ -17,7 +17,7 @@ categoryUrl : Int -> String
 categoryUrl categoryId =
     apiUrl <|
         String.concat
-            [ "category-"
+            [ "/category-"
             , toString categoryId
             , "-details.json"
             ]

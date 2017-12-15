@@ -1,4 +1,4 @@
-module Data.Category exposing (Category, empty, listDecoder, decoder)
+module Data.Category exposing (Category, empty, listDecoder, decoder, url)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline as Pipeline exposing (decode, required)
@@ -27,3 +27,11 @@ decoder =
     decode Category
         |> required "id" Decode.int
         |> required "title" Decode.string
+
+
+url : Category -> String
+url { id } =
+    String.concat
+        [ "#/category/"
+        , toString id
+        ]

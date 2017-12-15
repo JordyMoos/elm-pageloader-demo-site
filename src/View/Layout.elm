@@ -31,7 +31,19 @@ header : Html msg
 header =
     Html.header
         [ headerStyle ]
-        []
+        [ a
+            [ logoStyle, href "#" ]
+            [ text "Elm PageLoader Demo" ]
+        ]
+
+
+logoStyle : Attribute msg
+logoStyle =
+    style
+        [ ( "padding", "50px" )
+        , ( "fontSize", "20px" )
+        , ( "display", "block" )
+        ]
 
 
 headerStyle : Attribute msg
@@ -46,7 +58,7 @@ containerStyle : Attribute msg
 containerStyle =
     style
         [ ( "position", "relative" )
-        , ( "padding", "0 150px 0 0" )
+        , ( "padding", "0 200px 0 0" )
         ]
 
 
@@ -64,6 +76,6 @@ sideStyle =
         , ( "top", "0" )
         , ( "bottom", "0" )
         , ( "right", "0" )
-        , ( "width", "130px" )
+        , ( "width", "190px" )
         , ( "backgroundColor", "red" )
         ]
