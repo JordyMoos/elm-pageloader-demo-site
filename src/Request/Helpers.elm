@@ -3,4 +3,4 @@ module Request.Helpers exposing (apiUrl)
 
 apiUrl : String -> String
 apiUrl =
-    (++) "/src/static"
+    (++) "/elm-pageloader-demo-site/static"

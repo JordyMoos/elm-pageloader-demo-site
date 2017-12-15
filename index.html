@@ -14447,7 +14447,7 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Error$view = function (error) {
 var _JordyMoos$elm_pageloader_demo_site$Request_Helpers$apiUrl = F2(
 	function (x, y) {
 		return A2(_elm_lang$core$Basics_ops['++'], x, y);
-	})('/src/static');
+	})('/elm-pageloader-demo-site/static');
 var _JordyMoos$elm_pageloader_demo_site$Request_Category$listUrl = _JordyMoos$elm_pageloader_demo_site$Request_Helpers$apiUrl('/categories.json');
 var _JordyMoos$elm_pageloader_demo_site$Request_Category$list = function (msg) {
 	return A2(
@@ -14634,22 +14634,18 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$update = F2(
 			function () {
 				var _p5 = msg;
 				if (_p5.ctor === 'ItemResponse') {
-					var _p7 = _p5._0;
-					var _p6 = A2(_elm_lang$core$Debug$log, 'response', _p7);
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(
 							model,
-							{items: _p7}),
+							{items: _p5._0}),
 						{ctor: '[]'});
 				} else {
-					var _p9 = _p5._0;
-					var _p8 = A2(_elm_lang$core$Debug$log, 'response', _p9);
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(
 							model,
-							{categories: _p9}),
+							{categories: _p5._0}),
 						{ctor: '[]'});
 				}
 			}());
