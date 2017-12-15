@@ -162,7 +162,7 @@ viewLoader layout =
     div
         []
         [ layout
-        , div [ loaderStyle ] []
+        , div [ loaderStyle ] [ text "Loading" ]
         ]
 
 
@@ -172,7 +172,6 @@ loaderStyle =
         [ ( "position", "absolute" )
         , ( "top", "0" )
         , ( "right", "0" )
-        , ( "width", "50px" )
-        , ( "height", "50px" )
+        , ( "padding", "5px" )
         , ( "backgroundColor", "grey" )
         ]
