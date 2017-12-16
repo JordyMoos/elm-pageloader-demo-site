@@ -65,6 +65,10 @@ type Msg
     | LoadingSlowMsg LoadingSlow.Msg
 
 
+
+{- this method can also go the the library -}
+
+
 processLoading :
     (String -> page) -- ErrorPage
     -> (loadingModel -> Progression.Progression -> loader) -- LoadingHome
@@ -91,22 +95,22 @@ processLoading errorPage loader loaderMsg successPage successPageInit successPag
             ( Loaded (errorPage error), Cmd.none )
 
 
-processLoadingHome : Page -> TransitionStatus LoadingHome.Model LoadingHome.Msg Home.Model -> ( PageState Page Loading, Cmd msg )
+processLoadingHome : Page -> TransitionStatus LoadingHome.Model LoadingHome.Msg Home.Model -> ( PageState Page Loading, Cmd Msg )
 processLoadingHome =
-    processLoading ErrorPage LoadingHome LoadingHomeMsg HomePage Home.init NoOp
+    processLoading ErrorPage LoadingHome LoadingHomeMsg HomePage Home.init (\_ -> NoOp)
 
 
-processLoadingCategory : Page -> TransitionStatus LoadingCategory.Model LoadingCategory.Msg Category.Model -> ( PageState Page Loading, Cmd msg )
+processLoadingCategory : Page -> TransitionStatus LoadingCategory.Model LoadingCategory.Msg Category.Model -> ( PageState Page Loading, Cmd Msg )
 processLoadingCategory =
-    processLoading ErrorPage LoadingCategory LoadingCategoryMsg CategoryPage Category.init NoOp
+    processLoading ErrorPage LoadingCategory LoadingCategoryMsg CategoryPage Category.init (\_ -> NoOp)
 
 
-processLoadingSlow : Page -> TransitionStatus LoadingSlow.Model LoadingSlow.Msg Slow.Model -> ( PageState Page Loading, Cmd msg )
+processLoadingSlow : Page -> TransitionStatus LoadingSlow.Model LoadingSlow.Msg Slow.Model -> ( PageState Page Loading, Cmd Msg )
 processLoadingSlow =
-    processLoading ErrorPage LoadingSlow LoadingSlowMsg SlowPage Slow.init NoOp
+    processLoading ErrorPage LoadingSlow LoadingSlowMsg SlowPage Slow.init (\_ -> NoOp)
 
 
-updatePageState : Model -> ( PageState page loader, Cmd msg ) -> ( Model, Cmd msg )
+updatePageState : Model -> ( PageState Page Loading, Cmd msg ) -> ( Model, Cmd msg )
 updatePageState model ( pageState, cmd ) =
     ( { model | pageState = pageState }, cmd )
 
@@ -206,13 +210,13 @@ loaderStyle : Progression.Progression -> Attribute msg
 loaderStyle progression =
     let
         percentile =
-            (progression.finished * 100) // (progression.total * 100)
+            (progression.finished * 100) // progression.total
     in
         style
             [ ( "position", "absolute" )
             , ( "top", "0" )
             , ( "left", "0" )
-            , ( "width", (toString percentile) ++ "%" )
+            , ( "width", (toString (Basics.max 10 percentile)) ++ "%" )
             , ( "height", "10px" )
             , ( "backgroundColor", "grey" )
             ]

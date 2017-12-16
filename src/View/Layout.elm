@@ -9,6 +9,7 @@ full content =
     div
         []
         [ header
+        , navBar
         , div []
             [ article [ contentStyle ] [ content ]
             ]
@@ -20,6 +21,7 @@ withSide content side =
     div
         []
         [ header
+        , navBar
         , div [ containerStyle ]
             [ article [ contentStyle ] [ content ]
             , aside [ sideStyle ] [ side ]
@@ -34,7 +36,18 @@ header =
         [ a
             [ logoStyle, href "#" ]
             [ text "Elm PageLoader Demo" ]
-        , a [ href "#slow" ] [ text "Slow page" ]
+        ]
+
+
+navBar : Html msg
+navBar =
+    Html.nav
+        [ navBarStyle ]
+        [ ul
+            [ navBarUlStyle ]
+            [ a [ href "#" ] [ li [ navBarLiStyle ] [ text "Home" ] ]
+            , a [ href "#/slow" ] [ li [ navBarLiStyle ] [ text "Slow Page" ] ]
+            ]
         ]
 
 
@@ -52,6 +65,31 @@ headerStyle =
     style
         [ ( "backgroundColor", "lightGrey" )
         , ( "height", "150px" )
+        ]
+
+
+navBarStyle : Attribute msg
+navBarStyle =
+    style
+        [ ( "backgroundColor", "lightGrey" )
+        , ( "position", "relative" )
+        ]
+
+
+navBarUlStyle : Attribute msg
+navBarUlStyle =
+    style
+        [ ( "margin", "0" )
+        , ( "padding", "0 0 5px 0" )
+        ]
+
+
+navBarLiStyle : Attribute msg
+navBarLiStyle =
+    style
+        [ ( "margin", "0px 5px" )
+        , ( "padding", "5px 20px" )
+        , ( "display", "inline" )
         ]
 
 
