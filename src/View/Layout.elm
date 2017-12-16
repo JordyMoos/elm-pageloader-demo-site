@@ -34,6 +34,7 @@ header =
         [ a
             [ logoStyle, href "#" ]
             [ text "Elm PageLoader Demo" ]
+        , a [ href "#slow" ] [ text "Slow page" ]
         ]
 
 

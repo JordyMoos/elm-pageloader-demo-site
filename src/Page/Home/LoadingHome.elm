@@ -22,14 +22,15 @@ type Msg
     | CategoryResponse (WebData (List Category))
 
 
-init : ( Model, Cmd Msg )
+init : TransitionStatus Model Msg Home.Model
 init =
-    { items = RemoteData.Loading
-    , categories = RemoteData.Loading
-    }
-        ! [ ItemRequest.popular ItemResponse
-          , CategoryRequest.list CategoryResponse
-          ]
+    asTransitionStatus <|
+        { items = RemoteData.Loading
+        , categories = RemoteData.Loading
+        }
+            ! [ ItemRequest.popular ItemResponse
+              , CategoryRequest.list CategoryResponse
+              ]
 
 
 update : Msg -> Model -> TransitionStatus Model Msg Home.Model
