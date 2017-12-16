@@ -1,4 +1,4 @@
-module Page.Category.Category exposing (Model, view)
+module Page.Category.Category exposing (Model, init, view)
 
 import Data.Item exposing (Item)
 import Data.Category exposing (Category)
@@ -14,6 +14,11 @@ type alias Model =
     , items : List Item
     , categories : List Category
     }
+
+
+init : Model -> ( Model, Cmd msg )
+init model =
+    model ! []
 
 
 view : Model -> Html msg
