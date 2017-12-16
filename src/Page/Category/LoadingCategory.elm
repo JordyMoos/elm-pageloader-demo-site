@@ -26,16 +26,17 @@ type Msg
     | CategoryResponse (WebData (List Category))
 
 
-init : Int -> ( Model, Cmd Msg )
+init : Int -> TransitionStatus Model Msg CategoryPage.Model
 init categoryId =
-    { detailedCategory = RemoteData.Loading
-    , items = RemoteData.Loading
-    , categories = RemoteData.Loading
-    }
-        ! [ DetailedCategoryRequest.byId DetailedCategoryResponse categoryId
-          , ItemRequest.forCategory ItemResponse categoryId
-          , CategoryRequest.list CategoryResponse
-          ]
+    asTransitionStatus <|
+        { detailedCategory = RemoteData.Loading
+        , items = RemoteData.Loading
+        , categories = RemoteData.Loading
+        }
+            ! [ DetailedCategoryRequest.byId DetailedCategoryResponse categoryId
+              , ItemRequest.forCategory ItemResponse categoryId
+              , CategoryRequest.list CategoryResponse
+              ]
 
 
 update : Msg -> Model -> TransitionStatus Model Msg CategoryPage.Model

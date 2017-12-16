@@ -7,6 +7,7 @@ import UrlParser exposing (..)
 type Route
     = Home
     | Category Int
+    | Slow
 
 
 fromLocation : Location -> Maybe Route
@@ -19,4 +20,5 @@ matchers =
     oneOf
         [ map Home top
         , map Category (s "category" </> int)
+        , map Slow (s "slow")
         ]

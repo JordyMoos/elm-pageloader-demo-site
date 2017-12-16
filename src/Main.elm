@@ -8,7 +8,10 @@ import Page.Home.LoadingHome as LoadingHome
 import Page.Home.Home as Home
 import Page.Category.LoadingCategory as LoadingCategory
 import Page.Category.Category as Category
-import PageLoader exposing (PageState(Loaded, Transitioning))
+import Page.Slow.LoadingSlow as LoadingSlow
+import Page.Slow.Slow as Slow
+import PageLoader exposing (PageState(Loaded, Transitioning), TransitionStatus(..))
+import PageLoader.Progression as Progression
 import Navigation
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -20,11 +23,13 @@ type Page
     | ErrorPage Error.Model
     | HomePage Home.Model
     | CategoryPage Category.Model
+    | SlowPage Slow.Model
 
 
 type Loading
-    = LoadingHome LoadingHome.Model
-    | LoadingCategory LoadingCategory.Model
+    = LoadingHome LoadingHome.Model Progression.Progression
+    | LoadingCategory LoadingCategory.Model Progression.Progression
+    | LoadingSlow LoadingSlow.Model Progression.Progression
 
 
 type alias Model =
@@ -53,9 +58,61 @@ main =
 
 
 type Msg
-    = ChangeLocation Navigation.Location
+    = NoOp
+    | ChangeLocation Navigation.Location
     | LoadingHomeMsg LoadingHome.Msg
     | LoadingCategoryMsg LoadingCategory.Msg
+    | LoadingSlowMsg LoadingSlow.Msg
+
+
+
+{- this method can also go the the library -}
+
+
+processLoading :
+    (String -> page) -- ErrorPage
+    -> (loadingModel -> Progression.Progression -> loader) -- LoadingHome
+    -> (loadingMsg -> msg) -- LoadingHomeMsg
+    -> (newModel -> page) -- HomePage
+    -> (newData -> ( newModel, Cmd newMsg )) -- Home.init
+    -> (newMsg -> msg) -- HomeMsg / NoOp
+    -> page -- oldPage
+    -> TransitionStatus loadingModel loadingMsg newData -- TransitionStatus
+    -> ( PageState page loader, Cmd msg )
+processLoading errorPage loader loaderMsg successPage successPageInit successPageMsg oldPage transitionStatus =
+    case transitionStatus of
+        Pending ( model, cmd ) progression ->
+            ( Transitioning oldPage (loader model progression), Cmd.map loaderMsg cmd )
+
+        Success newData ->
+            let
+                ( model, cmd ) =
+                    successPageInit newData
+            in
+                ( Loaded (successPage model), Cmd.map successPageMsg cmd )
+
+        Failed error ->
+            ( Loaded (errorPage error), Cmd.none )
+
+
+processLoadingHome : Page -> TransitionStatus LoadingHome.Model LoadingHome.Msg Home.Model -> ( PageState Page Loading, Cmd Msg )
+processLoadingHome =
+    processLoading ErrorPage LoadingHome LoadingHomeMsg HomePage Home.init (\_ -> NoOp)
+
+
+processLoadingCategory : Page -> TransitionStatus LoadingCategory.Model LoadingCategory.Msg Category.Model -> ( PageState Page Loading, Cmd Msg )
+processLoadingCategory =
+    processLoading ErrorPage LoadingCategory LoadingCategoryMsg CategoryPage Category.init (\_ -> NoOp)
+
+
+processLoadingSlow : Page -> TransitionStatus LoadingSlow.Model LoadingSlow.Msg Slow.Model -> ( PageState Page Loading, Cmd Msg )
+processLoadingSlow =
+    processLoading ErrorPage LoadingSlow LoadingSlowMsg SlowPage Slow.init (\_ -> NoOp)
+
+
+updatePageState : Model -> ( PageState Page Loading, Cmd msg ) -> ( Model, Cmd msg )
+updatePageState model ( pageState, cmd ) =
+    ( { model | pageState = pageState }, cmd )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -64,31 +121,17 @@ update msg model =
         ( ChangeLocation location, _ ) ->
             setRoute (Routing.fromLocation location) model
 
-        ( LoadingHomeMsg subMsg, Transitioning oldPage (LoadingHome subModel) ) ->
-            let
-                ( newPageState, newCmd ) =
-                    PageLoader.defaultTransitionStatusHandler
-                        (LoadingHome.update subMsg subModel)
-                        oldPage
-                        LoadingHome
-                        LoadingHomeMsg
-                        HomePage
-                        ErrorPage
-            in
-                ( { model | pageState = newPageState }, newCmd )
+        ( LoadingHomeMsg subMsg, Transitioning oldPage (LoadingHome subModel _) ) ->
+            processLoadingHome oldPage (LoadingHome.update subMsg subModel)
+                |> updatePageState model
 
-        ( LoadingCategoryMsg subMsg, Transitioning oldPage (LoadingCategory subModel) ) ->
-            let
-                ( newPageState, newCmd ) =
-                    PageLoader.defaultTransitionStatusHandler
-                        (LoadingCategory.update subMsg subModel)
-                        oldPage
-                        LoadingCategory
-                        LoadingCategoryMsg
-                        CategoryPage
-                        ErrorPage
-            in
-                ( { model | pageState = newPageState }, newCmd )
+        ( LoadingCategoryMsg subMsg, Transitioning oldPage (LoadingCategory subModel _) ) ->
+            processLoadingCategory oldPage (LoadingCategory.update subMsg subModel)
+                |> updatePageState model
+
+        ( LoadingSlowMsg subMsg, Transitioning oldPage (LoadingSlow subModel _) ) ->
+            processLoadingSlow oldPage (LoadingSlow.update subMsg subModel)
+                |> updatePageState model
 
         ( _, _ ) ->
             let
@@ -100,31 +143,25 @@ update msg model =
 
 setRoute : Maybe Routing.Route -> Model -> ( Model, Cmd Msg )
 setRoute maybeRoute model =
-    case maybeRoute of
-        Nothing ->
-            { model | pageState = Loaded NotFoundPage } ! []
+    let
+        oldPage =
+            PageLoader.visualPage model.pageState
+    in
+        case maybeRoute of
+            Nothing ->
+                { model | pageState = Loaded NotFoundPage } ! []
 
-        Just Routing.Home ->
-            let
-                oldPage =
-                    PageLoader.visualPage model.pageState
+            Just Routing.Home ->
+                processLoadingHome oldPage LoadingHome.init
+                    |> updatePageState model
 
-                ( newModel, newCmd ) =
-                    LoadingHome.init
-            in
-                { model | pageState = Transitioning oldPage (LoadingHome newModel) }
-                    ! [ Cmd.map LoadingHomeMsg newCmd ]
+            Just (Routing.Category categoryId) ->
+                processLoadingCategory oldPage (LoadingCategory.init categoryId)
+                    |> updatePageState model
 
-        Just (Routing.Category categoryId) ->
-            let
-                oldPage =
-                    PageLoader.visualPage model.pageState
-
-                ( newModel, newCmd ) =
-                    LoadingCategory.init categoryId
-            in
-                { model | pageState = Transitioning oldPage (LoadingCategory newModel) }
-                    ! [ Cmd.map LoadingCategoryMsg newCmd ]
+            Just Routing.Slow ->
+                processLoadingSlow oldPage (LoadingSlow.init)
+                    |> updatePageState model
 
 
 view : Model -> Html Msg
@@ -133,9 +170,9 @@ view model =
         Loaded page ->
             viewPage page
 
-        Transitioning oldPage transitionData ->
+        Transitioning oldPage loader ->
             viewPage oldPage
-                |> viewLoader
+                |> viewLoading (extractProgression loader)
 
 
 viewPage : Page -> Html Msg
@@ -156,22 +193,43 @@ viewPage page =
         CategoryPage model ->
             Category.view model
 
+        SlowPage model ->
+            Slow.view model
 
-viewLoader : Html Msg -> Html Msg
-viewLoader layout =
+
+viewLoading : Progression.Progression -> Html Msg -> Html Msg
+viewLoading progression layout =
     div
         []
         [ layout
-        , div [ loaderStyle ] [ text "Loading" ]
+        , div [ loaderStyle progression ] []
         ]
 
 
-loaderStyle : Attribute msg
-loaderStyle =
-    style
-        [ ( "position", "absolute" )
-        , ( "top", "0" )
-        , ( "right", "0" )
-        , ( "padding", "5px" )
-        , ( "backgroundColor", "grey" )
-        ]
+loaderStyle : Progression.Progression -> Attribute msg
+loaderStyle progression =
+    let
+        percentile =
+            (progression.finished * 100) // progression.total
+    in
+        style
+            [ ( "position", "absolute" )
+            , ( "top", "0" )
+            , ( "left", "0" )
+            , ( "width", (toString (Basics.max 10 percentile)) ++ "%" )
+            , ( "height", "10px" )
+            , ( "backgroundColor", "grey" )
+            ]
+
+
+extractProgression : Loading -> Progression.Progression
+extractProgression loader =
+    case loader of
+        LoadingHome _ progression ->
+            progression
+
+        LoadingCategory _ progression ->
+            progression
+
+        LoadingSlow _ progression ->
+            progression

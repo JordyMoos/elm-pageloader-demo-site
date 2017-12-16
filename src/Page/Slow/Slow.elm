@@ -1,6 +1,5 @@
-module Page.Home.Home exposing (Model, init, view)
+module Page.Slow.Slow exposing (Model, init, view)
 
-import Data.Item exposing (Item)
 import Data.Category exposing (Category)
 import View.Layout as Layout
 import View.Side as SideView
@@ -9,8 +8,7 @@ import Html exposing (..)
 
 
 type alias Model =
-    { items : List Item
-    , categories : List Category
+    { categories : List Category
     }
 
 
@@ -22,14 +20,16 @@ init model =
 view : Model -> Html msg
 view model =
     Layout.withSide
-        (content model)
+        content
         (SideView.categoriesMenu model.categories)
 
 
-content : Model -> Html msg
-content model =
+content : Html msg
+content =
     div
         []
-        [ h1 [] [ text "Popular items" ]
-        , div [] (List.map ItemView.card model.items)
+        [ h1 [] [ text "Slow loading page" ]
+        , div []
+            [ p [] [ text "Has finally loaded" ]
+            ]
         ]
