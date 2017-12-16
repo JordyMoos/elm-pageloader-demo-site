@@ -13848,6 +13848,7 @@ var _evancz$url_parser$UrlParser$stringParam = function (name) {
 var _evancz$url_parser$UrlParser$intParam = function (name) {
 	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
 };
+var _JordyMoos$elm_pageloader_demo_site$Routing$Slow = {ctor: 'Slow'};
 var _JordyMoos$elm_pageloader_demo_site$Routing$Category = function (a) {
 	return {ctor: 'Category', _0: a};
 };
@@ -13865,7 +13866,14 @@ var _JordyMoos$elm_pageloader_demo_site$Routing$matchers = _evancz$url_parser$Ur
 					_evancz$url_parser$UrlParser_ops['</>'],
 					_evancz$url_parser$UrlParser$s('category'),
 					_evancz$url_parser$UrlParser$int)),
-			_1: {ctor: '[]'}
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_evancz$url_parser$UrlParser$map,
+					_JordyMoos$elm_pageloader_demo_site$Routing$Slow,
+					_evancz$url_parser$UrlParser$s('slow')),
+				_1: {ctor: '[]'}
+			}
 		}
 	});
 var _JordyMoos$elm_pageloader_demo_site$Routing$fromLocation = _evancz$url_parser$UrlParser$parseHash(_JordyMoos$elm_pageloader_demo_site$Routing$matchers);
@@ -14260,6 +14268,40 @@ var _JordyMoos$elm_pageloader_demo_site$View_Layout$containerStyle = _elm_lang$h
 			_1: {ctor: '[]'}
 		}
 	});
+var _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarLiStyle = _elm_lang$html$Html_Attributes$style(
+	{
+		ctor: '::',
+		_0: {ctor: '_Tuple2', _0: 'margin', _1: '0px 5px'},
+		_1: {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'padding', _1: '5px 20px'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
+				_1: {ctor: '[]'}
+			}
+		}
+	});
+var _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarUlStyle = _elm_lang$html$Html_Attributes$style(
+	{
+		ctor: '::',
+		_0: {ctor: '_Tuple2', _0: 'margin', _1: '0'},
+		_1: {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'padding', _1: '0 0 5px 0'},
+			_1: {ctor: '[]'}
+		}
+	});
+var _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarStyle = _elm_lang$html$Html_Attributes$style(
+	{
+		ctor: '::',
+		_0: {ctor: '_Tuple2', _0: 'backgroundColor', _1: 'lightGrey'},
+		_1: {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'position', _1: 'relative'},
+			_1: {ctor: '[]'}
+		}
+	});
 var _JordyMoos$elm_pageloader_demo_site$View_Layout$headerStyle = _elm_lang$html$Html_Attributes$style(
 	{
 		ctor: '::',
@@ -14283,6 +14325,77 @@ var _JordyMoos$elm_pageloader_demo_site$View_Layout$logoStyle = _elm_lang$html$H
 				_1: {ctor: '[]'}
 			}
 		}
+	});
+var _JordyMoos$elm_pageloader_demo_site$View_Layout$navBar = A2(
+	_elm_lang$html$Html$nav,
+	{
+		ctor: '::',
+		_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarStyle,
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$ul,
+			{
+				ctor: '::',
+				_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarUlStyle,
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href('#'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$li,
+							{
+								ctor: '::',
+								_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarLiStyle,
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Home'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href('#/slow'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$li,
+								{
+									ctor: '::',
+									_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$navBarLiStyle,
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Slow Page'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}),
+		_1: {ctor: '[]'}
 	});
 var _JordyMoos$elm_pageloader_demo_site$View_Layout$header = A2(
 	_elm_lang$html$Html$header,
@@ -14321,13 +14434,67 @@ var _JordyMoos$elm_pageloader_demo_site$View_Layout$withSide = F2(
 				_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$header,
 				_1: {
 					ctor: '::',
+					_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$navBar,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$containerStyle,
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$article,
+									{
+										ctor: '::',
+										_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$contentStyle,
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: content,
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$aside,
+										{
+											ctor: '::',
+											_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$sideStyle,
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: side,
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+var _JordyMoos$elm_pageloader_demo_site$View_Layout$full = function (content) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$header,
+			_1: {
+				ctor: '::',
+				_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$navBar,
+				_1: {
+					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$containerStyle,
-							_1: {ctor: '[]'}
-						},
+						{ctor: '[]'},
 						{
 							ctor: '::',
 							_0: A2(
@@ -14342,56 +14509,10 @@ var _JordyMoos$elm_pageloader_demo_site$View_Layout$withSide = F2(
 									_0: content,
 									_1: {ctor: '[]'}
 								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$aside,
-									{
-										ctor: '::',
-										_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$sideStyle,
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: side,
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
+							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
 				}
-			});
-	});
-var _JordyMoos$elm_pageloader_demo_site$View_Layout$full = function (content) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$header,
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$article,
-							{
-								ctor: '::',
-								_0: _JordyMoos$elm_pageloader_demo_site$View_Layout$contentStyle,
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: content,
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
 			}
 		});
 };
@@ -14592,6 +14713,12 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Home_Home$view = function (model) {
 		_JordyMoos$elm_pageloader_demo_site$Page_Home_Home$content(model),
 		_JordyMoos$elm_pageloader_demo_site$View_Side$categoriesMenu(model.categories));
 };
+var _JordyMoos$elm_pageloader_demo_site$Page_Home_Home$init = function (model) {
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		model,
+		{ctor: '[]'});
+};
 var _JordyMoos$elm_pageloader_demo_site$Page_Home_Home$Model = F2(
 	function (a, b) {
 		return {items: a, categories: b};
@@ -14660,18 +14787,19 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$CategoryResponse =
 var _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$ItemResponse = function (a) {
 	return {ctor: 'ItemResponse', _0: a};
 };
-var _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$init = A2(
-	_elm_lang$core$Platform_Cmd_ops['!'],
-	{items: _krisajenkins$remotedata$RemoteData$Loading, categories: _krisajenkins$remotedata$RemoteData$Loading},
-	{
-		ctor: '::',
-		_0: _JordyMoos$elm_pageloader_demo_site$Request_Item$popular(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$ItemResponse),
-		_1: {
+var _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$init = _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$asTransitionStatus(
+	A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		{items: _krisajenkins$remotedata$RemoteData$Loading, categories: _krisajenkins$remotedata$RemoteData$Loading},
+		{
 			ctor: '::',
-			_0: _JordyMoos$elm_pageloader_demo_site$Request_Category$list(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$CategoryResponse),
-			_1: {ctor: '[]'}
-		}
-	});
+			_0: _JordyMoos$elm_pageloader_demo_site$Request_Item$popular(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$ItemResponse),
+			_1: {
+				ctor: '::',
+				_0: _JordyMoos$elm_pageloader_demo_site$Request_Category$list(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$CategoryResponse),
+				_1: {ctor: '[]'}
+			}
+		}));
 var _JordyMoos$elm_pageloader_demo_site$Request_DetailedCategory$categoryUrl = function (categoryId) {
 	return _JordyMoos$elm_pageloader_demo_site$Request_Helpers$apiUrl(
 		_elm_lang$core$String$concat(
@@ -14750,6 +14878,12 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Category_Category$view = function (
 		_JordyMoos$elm_pageloader_demo_site$View_Layout$withSide,
 		_JordyMoos$elm_pageloader_demo_site$Page_Category_Category$content(model),
 		_JordyMoos$elm_pageloader_demo_site$View_Side$categoriesMenu(model.categories));
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Category_Category$init = function (model) {
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		model,
+		{ctor: '[]'});
 };
 var _JordyMoos$elm_pageloader_demo_site$Page_Category_Category$Model = F3(
 	function (a, b, c) {
@@ -14836,96 +14970,327 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$DetailedCa
 	return {ctor: 'DetailedCategoryResponse', _0: a};
 };
 var _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$init = function (categoryId) {
-	return A2(
-		_elm_lang$core$Platform_Cmd_ops['!'],
-		{detailedCategory: _krisajenkins$remotedata$RemoteData$Loading, items: _krisajenkins$remotedata$RemoteData$Loading, categories: _krisajenkins$remotedata$RemoteData$Loading},
-		{
-			ctor: '::',
-			_0: A2(_JordyMoos$elm_pageloader_demo_site$Request_DetailedCategory$byId, _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$DetailedCategoryResponse, categoryId),
-			_1: {
+	return _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$asTransitionStatus(
+		A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			{detailedCategory: _krisajenkins$remotedata$RemoteData$Loading, items: _krisajenkins$remotedata$RemoteData$Loading, categories: _krisajenkins$remotedata$RemoteData$Loading},
+			{
 				ctor: '::',
-				_0: A2(_JordyMoos$elm_pageloader_demo_site$Request_Item$forCategory, _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$ItemResponse, categoryId),
+				_0: A2(_JordyMoos$elm_pageloader_demo_site$Request_DetailedCategory$byId, _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$DetailedCategoryResponse, categoryId),
 				_1: {
 					ctor: '::',
-					_0: _JordyMoos$elm_pageloader_demo_site$Request_Category$list(_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$CategoryResponse),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
-var _JordyMoos$elm_pageloader_demo_site$Main$loaderStyle = _elm_lang$html$Html_Attributes$style(
-	{
-		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
-		_1: {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'top', _1: '0'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'right', _1: '0'},
-				_1: {
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'width', _1: '50px'},
+					_0: A2(_JordyMoos$elm_pageloader_demo_site$Request_Item$forCategory, _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$ItemResponse, categoryId),
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'height', _1: '50px'},
+						_0: _JordyMoos$elm_pageloader_demo_site$Request_Category$list(_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$CategoryResponse),
+						_1: {ctor: '[]'}
+					}
+				}
+			}));
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$content = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$h1,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Slow loading page'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$p,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Has finally loaded'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		}
+	});
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$view = function (model) {
+	return A2(
+		_JordyMoos$elm_pageloader_demo_site$View_Layout$withSide,
+		_JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$content,
+		_JordyMoos$elm_pageloader_demo_site$View_Side$categoriesMenu(model.categories));
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$init = function (model) {
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		model,
+		{ctor: '[]'});
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$Model = function (a) {
+	return {categories: a};
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$addFinished = function (status) {
+	var _p0 = status;
+	switch (_p0.ctor) {
+		case 'Failed':
+			return _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Failed;
+		case 'Success':
+			return _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success;
+		default:
+			var _p1 = _p0._0;
+			return _elm_lang$core$Native_Utils.eq(_p1.total, _p1.finished + 1) ? _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success : _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Pending(
+				A2(
+					_JordyMoos$elm_pageloader$PageLoader_Progression$add,
+					_p1,
+					{total: 0, finished: 1}));
+	}
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$dependencyStatuses = function (model) {
+	return {
+		ctor: '::',
+		_0: _JordyMoos$elm_pageloader$PageLoader_DependencyStatus_RemoteDataExt$asStatus(model.categories),
+		_1: {
+			ctor: '::',
+			_0: model.sleeps,
+			_1: {ctor: '[]'}
+		}
+	};
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$asTransitionStatus = function (_p2) {
+	var _p3 = _p2;
+	var _p6 = _p3._0;
+	return A3(
+		_JordyMoos$elm_pageloader$PageLoader$defaultDependencyStatusListHandler,
+		{ctor: '_Tuple2', _0: _p6, _1: _p3._1},
+		_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$dependencyStatuses(_p6),
+		function (_p4) {
+			var _p5 = _p4;
+			return {
+				categories: A2(
+					_krisajenkins$remotedata$RemoteData$withDefault,
+					{ctor: '[]'},
+					_p6.categories)
+			};
+		});
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$update = F2(
+	function (msg, model) {
+		return _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$asTransitionStatus(
+			function () {
+				var _p7 = msg;
+				if (_p7.ctor === 'SleepResponse') {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{
+								sleeps: _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$addFinished(model.sleeps)
+							}),
+						{ctor: '[]'});
+				} else {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{categories: _p7._0}),
+						{ctor: '[]'});
+				}
+			}());
+	});
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$Model = F2(
+	function (a, b) {
+		return {sleeps: a, categories: b};
+	});
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$CategoryResponse = function (a) {
+	return {ctor: 'CategoryResponse', _0: a};
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$SleepResponse = function (a) {
+	return {ctor: 'SleepResponse', _0: a};
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$sleep = function (time) {
+	return A2(
+		_elm_lang$core$Task$perform,
+		_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$SleepResponse,
+		_elm_lang$core$Process$sleep(time));
+};
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$init = _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$asTransitionStatus(
+	A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		{
+			sleeps: _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Pending(
+				{total: 3, finished: 0}),
+			categories: _krisajenkins$remotedata$RemoteData$Loading
+		},
+		{
+			ctor: '::',
+			_0: _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$sleep(1.0 * _elm_lang$core$Time$second),
+			_1: {
+				ctor: '::',
+				_0: _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$sleep(2.0 * _elm_lang$core$Time$second),
+				_1: {
+					ctor: '::',
+					_0: _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$sleep(3.0 * _elm_lang$core$Time$second),
+					_1: {
+						ctor: '::',
+						_0: _JordyMoos$elm_pageloader_demo_site$Request_Category$list(_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$CategoryResponse),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		}));
+var _JordyMoos$elm_pageloader_demo_site$Main$extractProgression = function (loader) {
+	var _p0 = loader;
+	switch (_p0.ctor) {
+		case 'LoadingHome':
+			return _p0._1;
+		case 'LoadingCategory':
+			return _p0._1;
+		default:
+			return _p0._1;
+	}
+};
+var _JordyMoos$elm_pageloader_demo_site$Main$loaderStyle = function (progression) {
+	var percentile = ((progression.finished * 100) / progression.total) | 0;
+	return _elm_lang$html$Html_Attributes$style(
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'top', _1: '0'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'left', _1: '0'},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'width',
+							_1: A2(
+								_elm_lang$core$Basics_ops['++'],
+								_elm_lang$core$Basics$toString(
+									A2(_elm_lang$core$Basics$max, 10, percentile)),
+								'%')
+						},
 						_1: {
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'backgroundColor', _1: 'grey'},
-							_1: {ctor: '[]'}
+							_0: {ctor: '_Tuple2', _0: 'height', _1: '10px'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'backgroundColor', _1: 'grey'},
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}
 			}
-		}
-	});
-var _JordyMoos$elm_pageloader_demo_site$Main$viewLoader = function (layout) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: layout,
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _JordyMoos$elm_pageloader_demo_site$Main$loaderStyle,
-						_1: {ctor: '[]'}
-					},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
 		});
 };
+var _JordyMoos$elm_pageloader_demo_site$Main$viewLoading = F2(
+	function (progression, layout) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: layout,
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _JordyMoos$elm_pageloader_demo_site$Main$loaderStyle(progression),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 var _JordyMoos$elm_pageloader_demo_site$Main$viewPage = function (page) {
-	var _p0 = page;
-	switch (_p0.ctor) {
+	var _p1 = page;
+	switch (_p1.ctor) {
 		case 'BlankPage':
 			return _JordyMoos$elm_pageloader_demo_site$Page_Blank$view;
 		case 'NotFoundPage':
 			return _JordyMoos$elm_pageloader_demo_site$Page_NotFound$view;
 		case 'ErrorPage':
-			return _JordyMoos$elm_pageloader_demo_site$Page_Error$view(_p0._0);
+			return _JordyMoos$elm_pageloader_demo_site$Page_Error$view(_p1._0);
 		case 'HomePage':
-			return _JordyMoos$elm_pageloader_demo_site$Page_Home_Home$view(_p0._0);
+			return _JordyMoos$elm_pageloader_demo_site$Page_Home_Home$view(_p1._0);
+		case 'CategoryPage':
+			return _JordyMoos$elm_pageloader_demo_site$Page_Category_Category$view(_p1._0);
 		default:
-			return _JordyMoos$elm_pageloader_demo_site$Page_Category_Category$view(_p0._0);
+			return _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$view(_p1._0);
 	}
 };
 var _JordyMoos$elm_pageloader_demo_site$Main$view = function (model) {
-	var _p1 = model.pageState;
-	if (_p1.ctor === 'Loaded') {
-		return _JordyMoos$elm_pageloader_demo_site$Main$viewPage(_p1._0);
+	var _p2 = model.pageState;
+	if (_p2.ctor === 'Loaded') {
+		return _JordyMoos$elm_pageloader_demo_site$Main$viewPage(_p2._0);
 	} else {
-		return _JordyMoos$elm_pageloader_demo_site$Main$viewLoader(
-			_JordyMoos$elm_pageloader_demo_site$Main$viewPage(_p1._0));
+		return A2(
+			_JordyMoos$elm_pageloader_demo_site$Main$viewLoading,
+			_JordyMoos$elm_pageloader_demo_site$Main$extractProgression(_p2._1),
+			_JordyMoos$elm_pageloader_demo_site$Main$viewPage(_p2._0));
 	}
 };
+var _JordyMoos$elm_pageloader_demo_site$Main$updatePageState = F2(
+	function (model, _p3) {
+		var _p4 = _p3;
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				model,
+				{pageState: _p4._0}),
+			_1: _p4._1
+		};
+	});
+var _JordyMoos$elm_pageloader_demo_site$Main$processLoading = F8(
+	function (errorPage, loader, loaderMsg, successPage, successPageInit, successPageMsg, oldPage, transitionStatus) {
+		var _p5 = transitionStatus;
+		switch (_p5.ctor) {
+			case 'Pending':
+				return {
+					ctor: '_Tuple2',
+					_0: A2(
+						_JordyMoos$elm_pageloader$PageLoader$Transitioning,
+						oldPage,
+						A2(loader, _p5._0._0, _p5._1)),
+					_1: A2(_elm_lang$core$Platform_Cmd$map, loaderMsg, _p5._0._1)
+				};
+			case 'Success':
+				var _p6 = successPageInit(_p5._0);
+				var model = _p6._0;
+				var cmd = _p6._1;
+				return {
+					ctor: '_Tuple2',
+					_0: _JordyMoos$elm_pageloader$PageLoader$Loaded(
+						successPage(model)),
+					_1: A2(_elm_lang$core$Platform_Cmd$map, successPageMsg, cmd)
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _JordyMoos$elm_pageloader$PageLoader$Loaded(
+						errorPage(_p5._0)),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
 var _JordyMoos$elm_pageloader_demo_site$Main$Model = function (a) {
 	return {pageState: a};
+};
+var _JordyMoos$elm_pageloader_demo_site$Main$SlowPage = function (a) {
+	return {ctor: 'SlowPage', _0: a};
 };
 var _JordyMoos$elm_pageloader_demo_site$Main$CategoryPage = function (a) {
 	return {ctor: 'CategoryPage', _0: a};
@@ -14941,11 +15306,20 @@ var _JordyMoos$elm_pageloader_demo_site$Main$BlankPage = {ctor: 'BlankPage'};
 var _JordyMoos$elm_pageloader_demo_site$Main$initModel = {
 	pageState: _JordyMoos$elm_pageloader$PageLoader$Loaded(_JordyMoos$elm_pageloader_demo_site$Main$BlankPage)
 };
-var _JordyMoos$elm_pageloader_demo_site$Main$LoadingCategory = function (a) {
-	return {ctor: 'LoadingCategory', _0: a};
-};
-var _JordyMoos$elm_pageloader_demo_site$Main$LoadingHome = function (a) {
-	return {ctor: 'LoadingHome', _0: a};
+var _JordyMoos$elm_pageloader_demo_site$Main$LoadingSlow = F2(
+	function (a, b) {
+		return {ctor: 'LoadingSlow', _0: a, _1: b};
+	});
+var _JordyMoos$elm_pageloader_demo_site$Main$LoadingCategory = F2(
+	function (a, b) {
+		return {ctor: 'LoadingCategory', _0: a, _1: b};
+	});
+var _JordyMoos$elm_pageloader_demo_site$Main$LoadingHome = F2(
+	function (a, b) {
+		return {ctor: 'LoadingHome', _0: a, _1: b};
+	});
+var _JordyMoos$elm_pageloader_demo_site$Main$LoadingSlowMsg = function (a) {
+	return {ctor: 'LoadingSlowMsg', _0: a};
 };
 var _JordyMoos$elm_pageloader_demo_site$Main$LoadingCategoryMsg = function (a) {
 	return {ctor: 'LoadingCategoryMsg', _0: a};
@@ -14953,10 +15327,45 @@ var _JordyMoos$elm_pageloader_demo_site$Main$LoadingCategoryMsg = function (a) {
 var _JordyMoos$elm_pageloader_demo_site$Main$LoadingHomeMsg = function (a) {
 	return {ctor: 'LoadingHomeMsg', _0: a};
 };
+var _JordyMoos$elm_pageloader_demo_site$Main$ChangeLocation = function (a) {
+	return {ctor: 'ChangeLocation', _0: a};
+};
+var _JordyMoos$elm_pageloader_demo_site$Main$NoOp = {ctor: 'NoOp'};
+var _JordyMoos$elm_pageloader_demo_site$Main$processLoadingHome = A6(
+	_JordyMoos$elm_pageloader_demo_site$Main$processLoading,
+	_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage,
+	_JordyMoos$elm_pageloader_demo_site$Main$LoadingHome,
+	_JordyMoos$elm_pageloader_demo_site$Main$LoadingHomeMsg,
+	_JordyMoos$elm_pageloader_demo_site$Main$HomePage,
+	_JordyMoos$elm_pageloader_demo_site$Page_Home_Home$init,
+	function (_p7) {
+		return _JordyMoos$elm_pageloader_demo_site$Main$NoOp;
+	});
+var _JordyMoos$elm_pageloader_demo_site$Main$processLoadingCategory = A6(
+	_JordyMoos$elm_pageloader_demo_site$Main$processLoading,
+	_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage,
+	_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategory,
+	_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategoryMsg,
+	_JordyMoos$elm_pageloader_demo_site$Main$CategoryPage,
+	_JordyMoos$elm_pageloader_demo_site$Page_Category_Category$init,
+	function (_p8) {
+		return _JordyMoos$elm_pageloader_demo_site$Main$NoOp;
+	});
+var _JordyMoos$elm_pageloader_demo_site$Main$processLoadingSlow = A6(
+	_JordyMoos$elm_pageloader_demo_site$Main$processLoading,
+	_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage,
+	_JordyMoos$elm_pageloader_demo_site$Main$LoadingSlow,
+	_JordyMoos$elm_pageloader_demo_site$Main$LoadingSlowMsg,
+	_JordyMoos$elm_pageloader_demo_site$Main$SlowPage,
+	_JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$init,
+	function (_p9) {
+		return _JordyMoos$elm_pageloader_demo_site$Main$NoOp;
+	});
 var _JordyMoos$elm_pageloader_demo_site$Main$setRoute = F2(
 	function (maybeRoute, model) {
-		var _p2 = maybeRoute;
-		if (_p2.ctor === 'Nothing') {
+		var oldPage = _JordyMoos$elm_pageloader$PageLoader$visualPage(model.pageState);
+		var _p10 = maybeRoute;
+		if (_p10.ctor === 'Nothing') {
 			return A2(
 				_elm_lang$core$Platform_Cmd_ops['!'],
 				_elm_lang$core$Native_Utils.update(
@@ -14966,46 +15375,25 @@ var _JordyMoos$elm_pageloader_demo_site$Main$setRoute = F2(
 					}),
 				{ctor: '[]'});
 		} else {
-			if (_p2._0.ctor === 'Home') {
-				var _p3 = _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$init;
-				var newModel = _p3._0;
-				var newCmd = _p3._1;
-				var oldPage = _JordyMoos$elm_pageloader$PageLoader$visualPage(model.pageState);
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
+			switch (_p10._0.ctor) {
+				case 'Home':
+					return A2(
+						_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
 						model,
-						{
-							pageState: A2(
-								_JordyMoos$elm_pageloader$PageLoader$Transitioning,
-								oldPage,
-								_JordyMoos$elm_pageloader_demo_site$Main$LoadingHome(newModel))
-						}),
-					{
-						ctor: '::',
-						_0: A2(_elm_lang$core$Platform_Cmd$map, _JordyMoos$elm_pageloader_demo_site$Main$LoadingHomeMsg, newCmd),
-						_1: {ctor: '[]'}
-					});
-			} else {
-				var _p4 = _JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$init(_p2._0._0);
-				var newModel = _p4._0;
-				var newCmd = _p4._1;
-				var oldPage = _JordyMoos$elm_pageloader$PageLoader$visualPage(model.pageState);
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
+						A2(_JordyMoos$elm_pageloader_demo_site$Main$processLoadingHome, oldPage, _JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$init));
+				case 'Category':
+					return A2(
+						_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
 						model,
-						{
-							pageState: A2(
-								_JordyMoos$elm_pageloader$PageLoader$Transitioning,
-								oldPage,
-								_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategory(newModel))
-						}),
-					{
-						ctor: '::',
-						_0: A2(_elm_lang$core$Platform_Cmd$map, _JordyMoos$elm_pageloader_demo_site$Main$LoadingCategoryMsg, newCmd),
-						_1: {ctor: '[]'}
-					});
+						A2(
+							_JordyMoos$elm_pageloader_demo_site$Main$processLoadingCategory,
+							oldPage,
+							_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$init(_p10._0._0)));
+				default:
+					return A2(
+						_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
+						model,
+						A2(_JordyMoos$elm_pageloader_demo_site$Main$processLoadingSlow, oldPage, _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$init));
 			}
 		}
 	});
@@ -15017,71 +15405,62 @@ var _JordyMoos$elm_pageloader_demo_site$Main$init = function (location) {
 };
 var _JordyMoos$elm_pageloader_demo_site$Main$update = F2(
 	function (msg, model) {
-		var _p5 = {ctor: '_Tuple2', _0: msg, _1: model.pageState};
-		_v3_3:
+		var _p11 = {ctor: '_Tuple2', _0: msg, _1: model.pageState};
+		_v6_4:
 		do {
-			switch (_p5._0.ctor) {
+			switch (_p11._0.ctor) {
 				case 'ChangeLocation':
 					return A2(
 						_JordyMoos$elm_pageloader_demo_site$Main$setRoute,
-						_JordyMoos$elm_pageloader_demo_site$Routing$fromLocation(_p5._0._0),
+						_JordyMoos$elm_pageloader_demo_site$Routing$fromLocation(_p11._0._0),
 						model);
 				case 'LoadingHomeMsg':
-					if ((_p5._1.ctor === 'Transitioning') && (_p5._1._1.ctor === 'LoadingHome')) {
-						var _p6 = A6(
-							_JordyMoos$elm_pageloader$PageLoader$defaultTransitionStatusHandler,
-							A2(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$update, _p5._0._0, _p5._1._1._0),
-							_p5._1._0,
-							_JordyMoos$elm_pageloader_demo_site$Main$LoadingHome,
-							_JordyMoos$elm_pageloader_demo_site$Main$LoadingHomeMsg,
-							_JordyMoos$elm_pageloader_demo_site$Main$HomePage,
-							_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage);
-						var newPageState = _p6._0;
-						var newCmd = _p6._1;
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{pageState: newPageState}),
-							_1: newCmd
-						};
+					if ((_p11._1.ctor === 'Transitioning') && (_p11._1._1.ctor === 'LoadingHome')) {
+						return A2(
+							_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
+							model,
+							A2(
+								_JordyMoos$elm_pageloader_demo_site$Main$processLoadingHome,
+								_p11._1._0,
+								A2(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$update, _p11._0._0, _p11._1._1._0)));
 					} else {
-						break _v3_3;
+						break _v6_4;
+					}
+				case 'LoadingCategoryMsg':
+					if ((_p11._1.ctor === 'Transitioning') && (_p11._1._1.ctor === 'LoadingCategory')) {
+						return A2(
+							_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
+							model,
+							A2(
+								_JordyMoos$elm_pageloader_demo_site$Main$processLoadingCategory,
+								_p11._1._0,
+								A2(_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$update, _p11._0._0, _p11._1._1._0)));
+					} else {
+						break _v6_4;
+					}
+				case 'LoadingSlowMsg':
+					if ((_p11._1.ctor === 'Transitioning') && (_p11._1._1.ctor === 'LoadingSlow')) {
+						return A2(
+							_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
+							model,
+							A2(
+								_JordyMoos$elm_pageloader_demo_site$Main$processLoadingSlow,
+								_p11._1._0,
+								A2(_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$update, _p11._0._0, _p11._1._1._0)));
+					} else {
+						break _v6_4;
 					}
 				default:
-					if ((_p5._1.ctor === 'Transitioning') && (_p5._1._1.ctor === 'LoadingCategory')) {
-						var _p7 = A6(
-							_JordyMoos$elm_pageloader$PageLoader$defaultTransitionStatusHandler,
-							A2(_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$update, _p5._0._0, _p5._1._1._0),
-							_p5._1._0,
-							_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategory,
-							_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategoryMsg,
-							_JordyMoos$elm_pageloader_demo_site$Main$CategoryPage,
-							_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage);
-						var newPageState = _p7._0;
-						var newCmd = _p7._1;
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{pageState: newPageState}),
-							_1: newCmd
-						};
-					} else {
-						break _v3_3;
-					}
+					break _v6_4;
 			}
 		} while(false);
-		var _p8 = A2(
+		var _p12 = A2(
 			_elm_lang$core$Debug$log,
 			'Ignoring wrong message for state',
 			_elm_lang$core$Basics$toString(
 				{ctor: '_Tuple2', _0: msg, _1: model.pageState}));
 		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 	});
-var _JordyMoos$elm_pageloader_demo_site$Main$ChangeLocation = function (a) {
-	return {ctor: 'ChangeLocation', _0: a};
-};
 var _JordyMoos$elm_pageloader_demo_site$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
 	_JordyMoos$elm_pageloader_demo_site$Main$ChangeLocation,
@@ -15094,7 +15473,7 @@ var _JordyMoos$elm_pageloader_demo_site$Main$main = A2(
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _JordyMoos$elm_pageloader_demo_site$Main$main !== 'undefined') {
-    _JordyMoos$elm_pageloader_demo_site$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Dict.LeafColor":{"args":[],"tags":{"LBBlack":[],"LBlack":[]}},"Dict.Dict":{"args":["k","v"],"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]}},"RemoteData.RemoteData":{"args":["e","a"],"tags":{"NotAsked":[],"Success":["a"],"Loading":[],"Failure":["e"]}},"Main.Msg":{"args":[],"tags":{"LoadingHomeMsg":["Page.Home.LoadingHome.Msg"],"LoadingCategoryMsg":["Page.Category.LoadingCategory.Msg"],"ChangeLocation":["Navigation.Location"]}},"Dict.NColor":{"args":[],"tags":{"BBlack":[],"Red":[],"NBlack":[],"Black":[]}},"Page.Home.LoadingHome.Msg":{"args":[],"tags":{"CategoryResponse":["RemoteData.WebData (List Data.Category.Category)"],"ItemResponse":["RemoteData.WebData (List Data.Item.Item)"]}},"Page.Category.LoadingCategory.Msg":{"args":[],"tags":{"CategoryResponse":["RemoteData.WebData (List Data.Category.Category)"],"DetailedCategoryResponse":["RemoteData.WebData Data.DetailedCategory.DetailedCategory"],"ItemResponse":["RemoteData.WebData (List Data.Item.Item)"]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String"],"NetworkError":[],"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"]}}},"aliases":{"RemoteData.WebData":{"args":["a"],"type":"RemoteData.RemoteData Http.Error a"},"Http.Response":{"args":["body"],"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }"},"Data.DetailedCategory.DetailedCategory":{"args":[],"type":"{ id : Int, title : String, description : String }"},"Data.Category.Category":{"args":[],"type":"{ id : Int, title : String }"},"Data.Item.Item":{"args":[],"type":"{ id : Int, title : String }"},"Navigation.Location":{"args":[],"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }"}},"message":"Main.Msg"},"versions":{"elm":"0.18.0"}});
+    _JordyMoos$elm_pageloader_demo_site$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Dict.LeafColor":{"args":[],"tags":{"LBBlack":[],"LBlack":[]}},"Dict.Dict":{"args":["k","v"],"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]}},"RemoteData.RemoteData":{"args":["e","a"],"tags":{"NotAsked":[],"Success":["a"],"Loading":[],"Failure":["e"]}},"Main.Msg":{"args":[],"tags":{"LoadingHomeMsg":["Page.Home.LoadingHome.Msg"],"LoadingSlowMsg":["Page.Slow.LoadingSlow.Msg"],"LoadingCategoryMsg":["Page.Category.LoadingCategory.Msg"],"ChangeLocation":["Navigation.Location"],"NoOp":[]}},"Dict.NColor":{"args":[],"tags":{"BBlack":[],"Red":[],"NBlack":[],"Black":[]}},"Page.Slow.LoadingSlow.Msg":{"args":[],"tags":{"SleepResponse":["()"],"CategoryResponse":["RemoteData.WebData (List Data.Category.Category)"]}},"Page.Home.LoadingHome.Msg":{"args":[],"tags":{"CategoryResponse":["RemoteData.WebData (List Data.Category.Category)"],"ItemResponse":["RemoteData.WebData (List Data.Item.Item)"]}},"Page.Category.LoadingCategory.Msg":{"args":[],"tags":{"CategoryResponse":["RemoteData.WebData (List Data.Category.Category)"],"DetailedCategoryResponse":["RemoteData.WebData Data.DetailedCategory.DetailedCategory"],"ItemResponse":["RemoteData.WebData (List Data.Item.Item)"]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String"],"NetworkError":[],"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"]}}},"aliases":{"RemoteData.WebData":{"args":["a"],"type":"RemoteData.RemoteData Http.Error a"},"Http.Response":{"args":["body"],"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }"},"Data.DetailedCategory.DetailedCategory":{"args":[],"type":"{ id : Int, title : String, description : String }"},"Data.Category.Category":{"args":[],"type":"{ id : Int, title : String }"},"Data.Item.Item":{"args":[],"type":"{ id : Int, title : String }"},"Navigation.Location":{"args":[],"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }"}},"message":"Main.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])
