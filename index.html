@@ -3196,6 +3196,19 @@ var _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$isSuccess = F2(
 	function (x, y) {
 		return _elm_lang$core$Native_Utils.eq(x, y);
 	})(_JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success);
+var _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$addFinished = function (status) {
+	var _p2 = status;
+	if (_p2.ctor === 'Pending') {
+		var _p3 = _p2._0;
+		return _elm_lang$core$Native_Utils.eq(_p3.total, _p3.finished + 1) ? _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success : _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Pending(
+			A2(
+				_JordyMoos$elm_pageloader$PageLoader_Progression$add,
+				_p3,
+				{total: 0, finished: 1}));
+	} else {
+		return status;
+	}
+};
 var _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$reduce = function (statuses) {
 	return A2(_elm_lang$core$List$any, _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$isFailed, statuses) ? _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Failed : (A2(_elm_lang$core$List$all, _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$isSuccess, statuses) ? _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success : _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Pending(
 		_JordyMoos$elm_pageloader$PageLoader_DependencyStatus$sumProgressions(statuses)));
@@ -3215,8 +3228,8 @@ var _JordyMoos$elm_pageloader$PageLoader$Transitioning = F2(
 var _JordyMoos$elm_pageloader$PageLoader$Loaded = function (a) {
 	return {ctor: 'Loaded', _0: a};
 };
-var _JordyMoos$elm_pageloader$PageLoader$defaultTransitionStatusHandler = F6(
-	function (transitionStatus, oldPage, loader, loadingMsgTagger, newPage, errorPage) {
+var _JordyMoos$elm_pageloader$PageLoader$defaultProcessLoading = F8(
+	function (errorPage, loader, loaderMsg, successPage, successPageInit, successPageMsg, oldPage, transitionStatus) {
 		var _p1 = transitionStatus;
 		switch (_p1.ctor) {
 			case 'Pending':
@@ -3225,15 +3238,18 @@ var _JordyMoos$elm_pageloader$PageLoader$defaultTransitionStatusHandler = F6(
 					_0: A2(
 						_JordyMoos$elm_pageloader$PageLoader$Transitioning,
 						oldPage,
-						loader(_p1._0._0)),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, loadingMsgTagger, _p1._0._1)
+						A2(loader, _p1._0._0, _p1._1)),
+					_1: A2(_elm_lang$core$Platform_Cmd$map, loaderMsg, _p1._0._1)
 				};
 			case 'Success':
+				var _p2 = successPageInit(_p1._0);
+				var model = _p2._0;
+				var cmd = _p2._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _JordyMoos$elm_pageloader$PageLoader$Loaded(
-						newPage(_p1._0)),
-					_1: _elm_lang$core$Platform_Cmd$none
+						successPage(model)),
+					_1: A2(_elm_lang$core$Platform_Cmd$map, successPageMsg, cmd)
 				};
 			default:
 				return {
@@ -3255,17 +3271,17 @@ var _JordyMoos$elm_pageloader$PageLoader$Pending = F2(
 		return {ctor: 'Pending', _0: a, _1: b};
 	});
 var _JordyMoos$elm_pageloader$PageLoader$defaultDependencyStatusHandler = F3(
-	function (_p2, dependencyStatus, onSuccessCallback) {
-		var _p3 = _p2;
-		var _p4 = dependencyStatus;
-		switch (_p4.ctor) {
+	function (_p3, dependencyStatus, onSuccessCallback) {
+		var _p4 = _p3;
+		var _p5 = dependencyStatus;
+		switch (_p5.ctor) {
 			case 'Failed':
 				return _JordyMoos$elm_pageloader$PageLoader$Failed('Some requests failed');
 			case 'Pending':
 				return A2(
 					_JordyMoos$elm_pageloader$PageLoader$Pending,
-					{ctor: '_Tuple2', _0: _p3._0, _1: _p3._1},
-					_p4._0);
+					{ctor: '_Tuple2', _0: _p4._0, _1: _p4._1},
+					_p5._0);
 			default:
 				return _JordyMoos$elm_pageloader$PageLoader$Success(
 					onSuccessCallback(
@@ -3273,11 +3289,11 @@ var _JordyMoos$elm_pageloader$PageLoader$defaultDependencyStatusHandler = F3(
 		}
 	});
 var _JordyMoos$elm_pageloader$PageLoader$defaultDependencyStatusListHandler = F3(
-	function (_p5, dependencyStatuses, onSuccessCallback) {
-		var _p6 = _p5;
+	function (_p6, dependencyStatuses, onSuccessCallback) {
+		var _p7 = _p6;
 		return A3(
 			_JordyMoos$elm_pageloader$PageLoader$defaultDependencyStatusHandler,
-			{ctor: '_Tuple2', _0: _p6._0, _1: _p6._1},
+			{ctor: '_Tuple2', _0: _p7._0, _1: _p7._1},
 			_JordyMoos$elm_pageloader$PageLoader_DependencyStatus$reduce(dependencyStatuses),
 			onSuccessCallback);
 	});
@@ -15036,22 +15052,6 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$init = function (model) {
 var _JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$Model = function (a) {
 	return {categories: a};
 };
-var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$addFinished = function (status) {
-	var _p0 = status;
-	switch (_p0.ctor) {
-		case 'Failed':
-			return _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Failed;
-		case 'Success':
-			return _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success;
-		default:
-			var _p1 = _p0._0;
-			return _elm_lang$core$Native_Utils.eq(_p1.total, _p1.finished + 1) ? _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Success : _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$Pending(
-				A2(
-					_JordyMoos$elm_pageloader$PageLoader_Progression$add,
-					_p1,
-					{total: 0, finished: 1}));
-	}
-};
 var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$dependencyStatuses = function (model) {
 	return {
 		ctor: '::',
@@ -15063,20 +15063,20 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$dependencyStatuses
 		}
 	};
 };
-var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$asTransitionStatus = function (_p2) {
-	var _p3 = _p2;
-	var _p6 = _p3._0;
+var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$asTransitionStatus = function (_p0) {
+	var _p1 = _p0;
+	var _p4 = _p1._0;
 	return A3(
 		_JordyMoos$elm_pageloader$PageLoader$defaultDependencyStatusListHandler,
-		{ctor: '_Tuple2', _0: _p6, _1: _p3._1},
-		_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$dependencyStatuses(_p6),
-		function (_p4) {
-			var _p5 = _p4;
+		{ctor: '_Tuple2', _0: _p4, _1: _p1._1},
+		_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$dependencyStatuses(_p4),
+		function (_p2) {
+			var _p3 = _p2;
 			return {
 				categories: A2(
 					_krisajenkins$remotedata$RemoteData$withDefault,
 					{ctor: '[]'},
-					_p6.categories)
+					_p4.categories)
 			};
 		});
 };
@@ -15084,14 +15084,14 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$update = F2(
 	function (msg, model) {
 		return _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$asTransitionStatus(
 			function () {
-				var _p7 = msg;
-				if (_p7.ctor === 'SleepResponse') {
+				var _p5 = msg;
+				if (_p5.ctor === 'SleepResponse') {
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(
 							model,
 							{
-								sleeps: _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$addFinished(model.sleeps)
+								sleeps: _JordyMoos$elm_pageloader$PageLoader_DependencyStatus$addFinished(model.sleeps)
 							}),
 						{ctor: '[]'});
 				} else {
@@ -15099,7 +15099,7 @@ var _JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$update = F2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						_elm_lang$core$Native_Utils.update(
 							model,
-							{categories: _p7._0}),
+							{categories: _p5._0}),
 						{ctor: '[]'});
 				}
 			}());
@@ -15254,38 +15254,6 @@ var _JordyMoos$elm_pageloader_demo_site$Main$updatePageState = F2(
 			_1: _p4._1
 		};
 	});
-var _JordyMoos$elm_pageloader_demo_site$Main$processLoading = F8(
-	function (errorPage, loader, loaderMsg, successPage, successPageInit, successPageMsg, oldPage, transitionStatus) {
-		var _p5 = transitionStatus;
-		switch (_p5.ctor) {
-			case 'Pending':
-				return {
-					ctor: '_Tuple2',
-					_0: A2(
-						_JordyMoos$elm_pageloader$PageLoader$Transitioning,
-						oldPage,
-						A2(loader, _p5._0._0, _p5._1)),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, loaderMsg, _p5._0._1)
-				};
-			case 'Success':
-				var _p6 = successPageInit(_p5._0);
-				var model = _p6._0;
-				var cmd = _p6._1;
-				return {
-					ctor: '_Tuple2',
-					_0: _JordyMoos$elm_pageloader$PageLoader$Loaded(
-						successPage(model)),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, successPageMsg, cmd)
-				};
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _JordyMoos$elm_pageloader$PageLoader$Loaded(
-						errorPage(_p5._0)),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-		}
-	});
 var _JordyMoos$elm_pageloader_demo_site$Main$Model = function (a) {
 	return {pageState: a};
 };
@@ -15332,40 +15300,40 @@ var _JordyMoos$elm_pageloader_demo_site$Main$ChangeLocation = function (a) {
 };
 var _JordyMoos$elm_pageloader_demo_site$Main$NoOp = {ctor: 'NoOp'};
 var _JordyMoos$elm_pageloader_demo_site$Main$processLoadingHome = A6(
-	_JordyMoos$elm_pageloader_demo_site$Main$processLoading,
+	_JordyMoos$elm_pageloader$PageLoader$defaultProcessLoading,
 	_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage,
 	_JordyMoos$elm_pageloader_demo_site$Main$LoadingHome,
 	_JordyMoos$elm_pageloader_demo_site$Main$LoadingHomeMsg,
 	_JordyMoos$elm_pageloader_demo_site$Main$HomePage,
 	_JordyMoos$elm_pageloader_demo_site$Page_Home_Home$init,
-	function (_p7) {
+	function (_p5) {
 		return _JordyMoos$elm_pageloader_demo_site$Main$NoOp;
 	});
 var _JordyMoos$elm_pageloader_demo_site$Main$processLoadingCategory = A6(
-	_JordyMoos$elm_pageloader_demo_site$Main$processLoading,
+	_JordyMoos$elm_pageloader$PageLoader$defaultProcessLoading,
 	_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage,
 	_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategory,
 	_JordyMoos$elm_pageloader_demo_site$Main$LoadingCategoryMsg,
 	_JordyMoos$elm_pageloader_demo_site$Main$CategoryPage,
 	_JordyMoos$elm_pageloader_demo_site$Page_Category_Category$init,
-	function (_p8) {
+	function (_p6) {
 		return _JordyMoos$elm_pageloader_demo_site$Main$NoOp;
 	});
 var _JordyMoos$elm_pageloader_demo_site$Main$processLoadingSlow = A6(
-	_JordyMoos$elm_pageloader_demo_site$Main$processLoading,
+	_JordyMoos$elm_pageloader$PageLoader$defaultProcessLoading,
 	_JordyMoos$elm_pageloader_demo_site$Main$ErrorPage,
 	_JordyMoos$elm_pageloader_demo_site$Main$LoadingSlow,
 	_JordyMoos$elm_pageloader_demo_site$Main$LoadingSlowMsg,
 	_JordyMoos$elm_pageloader_demo_site$Main$SlowPage,
 	_JordyMoos$elm_pageloader_demo_site$Page_Slow_Slow$init,
-	function (_p9) {
+	function (_p7) {
 		return _JordyMoos$elm_pageloader_demo_site$Main$NoOp;
 	});
 var _JordyMoos$elm_pageloader_demo_site$Main$setRoute = F2(
 	function (maybeRoute, model) {
 		var oldPage = _JordyMoos$elm_pageloader$PageLoader$visualPage(model.pageState);
-		var _p10 = maybeRoute;
-		if (_p10.ctor === 'Nothing') {
+		var _p8 = maybeRoute;
+		if (_p8.ctor === 'Nothing') {
 			return A2(
 				_elm_lang$core$Platform_Cmd_ops['!'],
 				_elm_lang$core$Native_Utils.update(
@@ -15375,7 +15343,7 @@ var _JordyMoos$elm_pageloader_demo_site$Main$setRoute = F2(
 					}),
 				{ctor: '[]'});
 		} else {
-			switch (_p10._0.ctor) {
+			switch (_p8._0.ctor) {
 				case 'Home':
 					return A2(
 						_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
@@ -15388,7 +15356,7 @@ var _JordyMoos$elm_pageloader_demo_site$Main$setRoute = F2(
 						A2(
 							_JordyMoos$elm_pageloader_demo_site$Main$processLoadingCategory,
 							oldPage,
-							_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$init(_p10._0._0)));
+							_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$init(_p8._0._0)));
 				default:
 					return A2(
 						_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
@@ -15405,56 +15373,56 @@ var _JordyMoos$elm_pageloader_demo_site$Main$init = function (location) {
 };
 var _JordyMoos$elm_pageloader_demo_site$Main$update = F2(
 	function (msg, model) {
-		var _p11 = {ctor: '_Tuple2', _0: msg, _1: model.pageState};
-		_v6_4:
+		var _p9 = {ctor: '_Tuple2', _0: msg, _1: model.pageState};
+		_v5_4:
 		do {
-			switch (_p11._0.ctor) {
+			switch (_p9._0.ctor) {
 				case 'ChangeLocation':
 					return A2(
 						_JordyMoos$elm_pageloader_demo_site$Main$setRoute,
-						_JordyMoos$elm_pageloader_demo_site$Routing$fromLocation(_p11._0._0),
+						_JordyMoos$elm_pageloader_demo_site$Routing$fromLocation(_p9._0._0),
 						model);
 				case 'LoadingHomeMsg':
-					if ((_p11._1.ctor === 'Transitioning') && (_p11._1._1.ctor === 'LoadingHome')) {
+					if ((_p9._1.ctor === 'Transitioning') && (_p9._1._1.ctor === 'LoadingHome')) {
 						return A2(
 							_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
 							model,
 							A2(
 								_JordyMoos$elm_pageloader_demo_site$Main$processLoadingHome,
-								_p11._1._0,
-								A2(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$update, _p11._0._0, _p11._1._1._0)));
+								_p9._1._0,
+								A2(_JordyMoos$elm_pageloader_demo_site$Page_Home_LoadingHome$update, _p9._0._0, _p9._1._1._0)));
 					} else {
-						break _v6_4;
+						break _v5_4;
 					}
 				case 'LoadingCategoryMsg':
-					if ((_p11._1.ctor === 'Transitioning') && (_p11._1._1.ctor === 'LoadingCategory')) {
+					if ((_p9._1.ctor === 'Transitioning') && (_p9._1._1.ctor === 'LoadingCategory')) {
 						return A2(
 							_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
 							model,
 							A2(
 								_JordyMoos$elm_pageloader_demo_site$Main$processLoadingCategory,
-								_p11._1._0,
-								A2(_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$update, _p11._0._0, _p11._1._1._0)));
+								_p9._1._0,
+								A2(_JordyMoos$elm_pageloader_demo_site$Page_Category_LoadingCategory$update, _p9._0._0, _p9._1._1._0)));
 					} else {
-						break _v6_4;
+						break _v5_4;
 					}
 				case 'LoadingSlowMsg':
-					if ((_p11._1.ctor === 'Transitioning') && (_p11._1._1.ctor === 'LoadingSlow')) {
+					if ((_p9._1.ctor === 'Transitioning') && (_p9._1._1.ctor === 'LoadingSlow')) {
 						return A2(
 							_JordyMoos$elm_pageloader_demo_site$Main$updatePageState,
 							model,
 							A2(
 								_JordyMoos$elm_pageloader_demo_site$Main$processLoadingSlow,
-								_p11._1._0,
-								A2(_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$update, _p11._0._0, _p11._1._1._0)));
+								_p9._1._0,
+								A2(_JordyMoos$elm_pageloader_demo_site$Page_Slow_LoadingSlow$update, _p9._0._0, _p9._1._1._0)));
 					} else {
-						break _v6_4;
+						break _v5_4;
 					}
 				default:
-					break _v6_4;
+					break _v5_4;
 			}
 		} while(false);
-		var _p12 = A2(
+		var _p10 = A2(
 			_elm_lang$core$Debug$log,
 			'Ignoring wrong message for state',
 			_elm_lang$core$Basics$toString(
