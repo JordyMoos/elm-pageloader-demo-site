@@ -42,7 +42,7 @@ update msg model =
     asTransitionStatus <|
         case msg of
             SleepResponse _ ->
-                { model | sleeps = addFinished model.sleeps } ! []
+                { model | sleeps = DependencyStatus.addFinished model.sleeps } ! []
 
             CategoryResponse response ->
                 { model | categories = response } ! []
@@ -69,23 +69,3 @@ sleep : Time.Time -> Cmd Msg
 sleep time =
     Process.sleep time
         |> Task.perform SleepResponse
-
-
-
-{- This method should be in the library -}
-
-
-addFinished : DependencyStatus.Status -> DependencyStatus.Status
-addFinished status =
-    case status of
-        DependencyStatus.Failed ->
-            DependencyStatus.Failed
-
-        DependencyStatus.Success ->
-            DependencyStatus.Success
-
-        DependencyStatus.Pending progression ->
-            if progression.total == progression.finished + 1 then
-                DependencyStatus.Success
-            else
-                DependencyStatus.Pending (Progression.add progression { total = 0, finished = 1 })
