@@ -65,49 +65,19 @@ type Msg
     | LoadingSlowMsg LoadingSlow.Msg
 
 
-
-{- this method can also go the the library -}
-
-
-processLoading :
-    (String -> page) -- ErrorPage
-    -> (loadingModel -> Progression.Progression -> loader) -- LoadingHome
-    -> (loadingMsg -> msg) -- LoadingHomeMsg
-    -> (newModel -> page) -- HomePage
-    -> (newData -> ( newModel, Cmd newMsg )) -- Home.init
-    -> (newMsg -> msg) -- HomeMsg / NoOp
-    -> page -- oldPage
-    -> TransitionStatus loadingModel loadingMsg newData -- TransitionStatus
-    -> ( PageState page loader, Cmd msg )
-processLoading errorPage loader loaderMsg successPage successPageInit successPageMsg oldPage transitionStatus =
-    case transitionStatus of
-        Pending ( model, cmd ) progression ->
-            ( Transitioning oldPage (loader model progression), Cmd.map loaderMsg cmd )
-
-        Success newData ->
-            let
-                ( model, cmd ) =
-                    successPageInit newData
-            in
-                ( Loaded (successPage model), Cmd.map successPageMsg cmd )
-
-        Failed error ->
-            ( Loaded (errorPage error), Cmd.none )
-
-
 processLoadingHome : Page -> TransitionStatus LoadingHome.Model LoadingHome.Msg Home.Model -> ( PageState Page Loading, Cmd Msg )
 processLoadingHome =
-    processLoading ErrorPage LoadingHome LoadingHomeMsg HomePage Home.init (\_ -> NoOp)
+    PageLoader.defaultProcessLoading ErrorPage LoadingHome LoadingHomeMsg HomePage Home.init (\_ -> NoOp)
 
 
 processLoadingCategory : Page -> TransitionStatus LoadingCategory.Model LoadingCategory.Msg Category.Model -> ( PageState Page Loading, Cmd Msg )
 processLoadingCategory =
-    processLoading ErrorPage LoadingCategory LoadingCategoryMsg CategoryPage Category.init (\_ -> NoOp)
+    PageLoader.defaultProcessLoading ErrorPage LoadingCategory LoadingCategoryMsg CategoryPage Category.init (\_ -> NoOp)
 
 
 processLoadingSlow : Page -> TransitionStatus LoadingSlow.Model LoadingSlow.Msg Slow.Model -> ( PageState Page Loading, Cmd Msg )
 processLoadingSlow =
-    processLoading ErrorPage LoadingSlow LoadingSlowMsg SlowPage Slow.init (\_ -> NoOp)
+    PageLoader.defaultProcessLoading ErrorPage LoadingSlow LoadingSlowMsg SlowPage Slow.init (\_ -> NoOp)
 
 
 updatePageState : Model -> ( PageState Page Loading, Cmd msg ) -> ( Model, Cmd msg )
